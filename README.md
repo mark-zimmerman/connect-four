@@ -27,6 +27,11 @@
 - Player 2 will now choose a column. We will check if there is an empy space if there is not then nothing will happen if there is then game over alert will be intitiated. 
 
 
-# The hard part
-- The hard part will be to create a board in JS and make it represent the HTML board that is being displayed on the screen. 
-- 
+
+## Check for win logic
+- A token is dropped
+- Check up. If the spot above is filled with your color then add one to matchCount.
+- Else return
+- If matchCount = 4 YOU WIN! If its less than 4 move to up/right
+- check space column+1, row+1 if it matches add 1 to matchCount
+- Move again in same direction

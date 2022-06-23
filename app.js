@@ -1,21 +1,29 @@
 const boardDisplay = document.querySelector('#board');
 const column = document.querySelector('.col')
 const space = document.querySelector('.space');
+const playerDisplay = document.querySelector('#player-display');
+const colorDisplay = document.querySelector('#color-display');
 
 
 const board = [];
 
-const gameState = {
-    board: board,
-    players: ['red', 'yellow'],
+for (let i = 0; i < 7; i++) {
+    board.push([])
 }
+console.log(board);
 
 //EVENT LISTENERS
 boardDisplay.addEventListener('click', columnCheck);
 
 
-//Check to see if there is an empty spot in column
-//If there is call the drop token function and pass in first
+//OBJECTS
+const gameState = {
+    board: board,
+    players: ['red', 'yellow'],
+    move: 1
+}
+
+//FUNCTIONS
 function columnCheck(event) {
    let columnOpen = false;
    let currentCol = event.target.closest('.col');
@@ -26,29 +34,33 @@ function columnCheck(event) {
             return;
         }
     }
-    console.log(columnOpen);
-    return columnOpen;
 }
-//
+
 function dropToken(dropSpace) {
-    dropSpace.children[0].style.backgroundColor = 'red';
+    if (gameState.move % 2 !== 0) {
+        dropSpace.children[0].style.backgroundColor = 'red';
+        console.log(gameState.move);
+        playerDisplay.innerHTML = 'Player 2';
+        colorDisplay.style.backgroundColor = 'yellow';
+
+    } else {
+        dropSpace.children[0].style.backgroundColor = 'yellow';
+        playerDisplay.innerHTML = 'Player 1';
+        colorDisplay.style.backgroundColor = 'red';
+    }
     dropSpace.classList.remove('open');
+    gameState.move++;
+    console.log(gameState);
 }
 
-for (let i = 0; i < 7; i++) {
-    board.push([])
-}
-console.log(board);
 
-// for (let i = 0; i < 7; i++) {
-//     let currentCol = boardDisplay.children[i];
-    
-//     for (let i = 0; i < 6; i++) {
-//         currentSpace = currentCol.children[i];
-//         currentSpot = currentSpace.children[0];
-//         if (currentSpace.classList.contains('occupied')) {
-//             currentSpot.style.backgroundColor = Player.tokenColor;
-//         }
-//     }
-// }
+
+function changeActivePlayer() {
+
+}
+
+
+
+
+
 
