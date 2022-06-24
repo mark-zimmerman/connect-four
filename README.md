@@ -30,8 +30,12 @@
 
 ## Check for win logic
 - A token is dropped
-- Check up. If the spot above is filled with your color then add one to matchCount.
-- Else return
-- If matchCount = 4 YOU WIN! If its less than 4 move to up/right
-- check space column+1, row+1 if it matches add 1 to matchCount
-- Move again in same direction
+- Check up. If the spot above is filled with your color then add one to verticalMatch.
+- Else return matchCountUp. Start again at the original space.
+- check the space down. If it matches add 1 to verticalCount. If it doesnt match return.
+- If verticalMatch value is 4 YOU WIN!
+- If its less than 4 go to forwardDiagonal.
+
+
+## Using DOM 
+- 

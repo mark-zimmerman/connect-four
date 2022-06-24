@@ -27,19 +27,21 @@ const gameState = {
 function columnCheck(event) {
    let columnOpen = false;
    let currentCol = event.target.closest('.col');
-   for (let i = 5; i >= 0; i--) {
+   for (let i = 0; i < 6; i++) {
         if (currentCol.children[i].classList.contains('open')) {
             columnOpen = true;
-            dropToken(currentCol.children[i]);
+            dropToken(currentCol.children[i], i, currentCol);
+            addToBoardObj(i, currentCol);
             return;
+            
         }
     }
 }
-
-function dropToken(dropSpace) {
+//Need to push the color to the board array
+//We will pass the columnIndex and row index
+function dropToken(dropSpace, rowIndex, columnIndex) {
     if (gameState.move % 2 !== 0) {
         dropSpace.children[0].style.backgroundColor = 'red';
-        console.log(gameState.move);
         playerDisplay.innerHTML = 'Player 2';
         colorDisplay.style.backgroundColor = 'yellow';
 
@@ -50,11 +52,21 @@ function dropToken(dropSpace) {
     }
     dropSpace.classList.remove('open');
     gameState.move++;
-    console.log(gameState);
 }
-
-
-
+//create a for loop
+function addToBoardObj(rowIndex, currentCol) {
+    console.log(rowIndex);
+    console.log(currentCol);
+    for (let i = 0; i < 7; i++) {
+        if (boardDisplay.children[i] === currentCol) {
+            console.log(i);
+            board[i].push('Taarrgeettt');
+            console.log(board)
+        }
+    }
+    
+}
+console.log(board)
 function changeActivePlayer() {
 
 }
