@@ -10,7 +10,7 @@ const board = [];
 for (let i = 0; i < 7; i++) {
     board.push([])
 }
-console.log(board);
+
 
 //EVENT LISTENERS
 boardDisplay.addEventListener('click', columnCheck);
@@ -19,9 +19,10 @@ boardDisplay.addEventListener('click', columnCheck);
 //OBJECTS
 const gameState = {
     board: board,
-    players: ['red', 'yellow'],
+    playerTurn: 'red',
     move: 1
 }
+console.log(gameState.board);
 
 //FUNCTIONS
 function columnCheck(event) {
@@ -42,11 +43,13 @@ function columnCheck(event) {
 function dropToken(dropSpace, rowIndex, columnIndex) {
     if (gameState.move % 2 !== 0) {
         dropSpace.children[0].style.backgroundColor = 'red';
+        gameState.playerTurn = 'red';
         playerDisplay.innerHTML = 'Player 2';
         colorDisplay.style.backgroundColor = 'yellow';
 
     } else {
         dropSpace.children[0].style.backgroundColor = 'yellow';
+        gameState.playerTurn = 'yellow';
         playerDisplay.innerHTML = 'Player 1';
         colorDisplay.style.backgroundColor = 'red';
     }
@@ -60,16 +63,33 @@ function addToBoardObj(rowIndex, currentCol) {
     for (let i = 0; i < 7; i++) {
         if (boardDisplay.children[i] === currentCol) {
             console.log(i);
-            board[i].push('Taarrgeettt');
+            board[i].push(gameState.playerTurn);
             console.log(board)
         }
     }
-    
+    checkForWin(rowIndex, currentCol);
+    console.log(gameState.playerTurn)
 }
-console.log(board)
-function changeActivePlayer() {
 
+function checkForWin(row, column) {
+    let testCol;
+    let testRow; 
+    let vertMatchCount = 1;
+    let horMatchCount = 1;
+    let forDiagMatchCount = 1;
+    let backDiagMatchCount = 1;
+    console.log('check for win')
+    //Up direction
+    for (let i = 0; i < 4; i++) {
+        testRow = row + 1;
+        if(gameState.board[column][testRow] === gameState.board[column][row]) {
+            console.log('hi')
+            vertMatchCount++;
+            console.log(vertMatchCount)
+        }
+    }
 }
+
 
 
 

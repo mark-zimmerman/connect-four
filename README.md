@@ -37,5 +37,9 @@
 - If its less than 4 go to forwardDiagonal.
 
 
-## Using DOM 
-- 
+## Check for win logic
+- A token is dropped. We need the index coordinates of the dropped token within the board object.
+- Those are kept in the row and column variables
+- We need to make testRow and testColumn variables to hold the test coordinates
+- First we need to check up.
+- if Row + 1's = testRow add one to vertical match count. 
