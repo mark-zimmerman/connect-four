@@ -38,8 +38,7 @@ function columnCheck(event) {
         }
     }
 }
-//Need to push the color to the board array
-//We will pass the columnIndex and row index
+
 function dropToken(dropSpace) {
     if (gameState.move % 2 !== 0) {
         dropSpace.children[0].style.backgroundColor = 'red';
@@ -77,16 +76,10 @@ function checkForWin(row, column) {
     }
     checkVertical(row, colIndex);
     checkForwardDiagonal(row, colIndex);
-
+    checkBackwardDiagonal(row, colIndex)
+    checkHorizontal(row, colIndex);
 }
 
-//We have the coordinates of the current token
-//we need to loop through board column to see if the space is a match
-//If it is a match add 1 to vmcount and continue looping
-//if it is not a match exit loop
-//Now we do the same loop for down
-//once it fails we will see what the vertMatchCount is
-//If its 4 we call the win function
 function checkVertical(row, colIndex) {
     let vertMatchCount = 0;
     for (let i = 0; i < 4; i++) {
@@ -97,23 +90,25 @@ function checkVertical(row, colIndex) {
             return;
         }
     }
-    if (vertMatchCount === 4) {
+    if (vertMatchCount > 3) {
         console.log('you win downward!!!');
+        if(gameState.playerTurn === 'red') {
+            console.log('congrats Player 1!');
+        } else {
+            console.log('congrats Player 2');
+        }
     }
 }
 
-//For forward diagonal
-//we have the coordinates of the current space
-// we need to loop through 4 times
-//each time adding 1 to the colIndex and one to the row
-// So we have the upward direction match count
-// Now we need to count the downward count
 function checkForwardDiagonal(row, colIndex) {
     let fDMatchCount = 0;
     let backMatchCount = 0;
     for (let i = 0; i < 4; i++) {
         let testCol = colIndex + i;
         let testRow = row + i;
+        if (testCol > 6) {
+            break;
+        }
         if (board[colIndex][row] === board[testCol][testRow]) {
             fDMatchCount++; 
         } else {
@@ -123,17 +118,98 @@ function checkForwardDiagonal(row, colIndex) {
     for (let i = 0; i < 4; i++) {
         let testCol = colIndex - i;
         let testRow = row - i;
+        if (testCol < 0) {
+            break;
+        }
         if (board[colIndex][row] === board[testCol][testRow]) {
             backMatchCount++; 
         } else {
             break;
         }
-        console.log(backMatchCount);
     }
     
     if (backMatchCount + fDMatchCount > 4) {
         console.log('You win Diagonal')
+        if(gameState.playerTurn === 'red') {
+            console.log('congrats Player 1!');
+        } else {
+            console.log('congrats Player 2');
+        }
     }
 }
 
 
+function checkBackwardDiagonal(row, colIndex) {
+    let fDMatchCount = 0;
+    let backMatchCount = 0;
+    for (let i = 0; i < 4; i++) {
+        let testCol = colIndex + i;
+        let testRow = row - i;
+        if (testCol > 6) {
+            break;
+        }
+        if (board[colIndex][row] === board[testCol][testRow]) {
+            fDMatchCount++; 
+        } else {
+            break;
+        }
+    }
+    for (let i = 0; i < 4; i++) {
+        let testCol = colIndex - i;
+        let testRow = row + i;
+        if (testCol < 0) {
+            break;
+        }
+        if (board[colIndex][row] === board[testCol][testRow]) {
+            backMatchCount++; 
+        } else {
+            break;
+        }
+    }
+    
+    if (backMatchCount + fDMatchCount > 4) {
+        console.log('You win Back Diagonal')
+        if(gameState.playerTurn === 'red') {
+            console.log('congrats Player 1');
+        } else {
+            console.log('congrats Player 2');
+        }
+    }
+}
+
+function checkHorizontal(row, colIndex) {
+    let fDMatchCount = 0;
+    let backMatchCount = 0;
+    for (let i = 0; i < 4; i++) {
+        let testCol = colIndex + i;
+        if (testCol > 6) {
+            break;
+        }
+         if (board[colIndex][row] === board[testCol][row]) {
+            fDMatchCount++; 
+        } else {
+            break;
+        }
+    }
+    
+    for (let i = 0; i < 4; i++) {
+        let testCol = colIndex - i;
+        if (testCol < 0) {
+            break;
+        }
+        if (board[colIndex][row] === board[testCol][row]) {
+            backMatchCount++; 
+        } else {
+            break;
+        }
+    }
+    
+    if (backMatchCount + fDMatchCount > 4) {
+        console.log('You win horizontal')
+        if(gameState.playerTurn === 'red') {
+            console.log('congrats Player 1');
+        } else {
+            console.log('congrats Player 2');
+        }
+    }
+}
