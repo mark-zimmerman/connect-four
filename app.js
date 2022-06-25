@@ -216,21 +216,26 @@ function checkHorizontal(row, colIndex) {
         } else {
             winningPlayer = 'Player 2';
         }
+        
         gameOver();
     }
 }
 
 function gameOver() {
-    boardDisplay.style.display = 'none';
-    
-    document.body.appendChild(endGameContainer);
-    endGameContainer.className = 'end-game-container'
-    winnerH1.className = 'gameover';
-    endGameContainer.appendChild(winnerH1);
-    winnerH1.innerHTML = `${winningPlayer} wins!`
-    restartBtn.className = 'restart';
-    restartBtn.innerHTML = 'Restart';
-    endGameContainer.appendChild(restartBtn);
+    setTimeout(
+        function() {
+        boardDisplay.style.display = 'none';
+        document.body.appendChild(endGameContainer);
+        endGameContainer.className = 'end-game-container'
+        winnerH1.className = 'gameover';
+        endGameContainer.appendChild(winnerH1);
+        winnerH1.innerHTML = `${winningPlayer} wins!`
+        restartBtn.className = 'restart';
+        restartBtn.innerHTML = 'Restart';
+        endGameContainer.appendChild(restartBtn);
+        playerDisplay.style.display = 'none';
+        colorDisplay.style.display = 'none';
+    }, 1000);
     
 }
 restartBtn.addEventListener('click', function() {
@@ -242,6 +247,8 @@ restartBtn.addEventListener('click', function() {
     gameState.move = 1;
     colorDisplay.style.backgroundColor = 'red';
     playerDisplay.innerHTML = 'Player 1';
+    colorDisplay.style.display = 'block';
+    playerDisplay.style.display = 'block';
     for (let i = 0; i < 42; i++) {
         
         spaces[i].children[0].removeAttribute('style');
