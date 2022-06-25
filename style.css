@@ -21,6 +21,16 @@ body {
     
 
 }
+.restart {
+    border: 2px white solid;
+    padding: .5em;
+    border-radius: 5px;
+}
+.restart:hover {
+    cursor: pointer;
+    border: solid 2px blue;
+    color: blue;
+}
 .col {
     height: 100%;
     width: 100%;
@@ -85,4 +95,12 @@ header {
     }
     
 
+  }
+  .end-game-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+      height: 80vh;
   }

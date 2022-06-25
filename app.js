@@ -3,8 +3,12 @@ const column = document.querySelector('.col')
 const space = document.querySelector('.space');
 const playerDisplay = document.querySelector('#player-display');
 const colorDisplay = document.querySelector('#color-display');
-
-
+const gameoverHeading = document.querySelector('.gameover');
+let winnerH1 = document.createElement('h1');
+let restartBtn = document.createElement('btn');
+let endGameContainer = document.createElement('div');
+let winningPlayer; 
+const spaces = document.querySelectorAll('.space');
 const board = [];
 
 for (let i = 0; i < 7; i++) {
@@ -34,7 +38,6 @@ function columnCheck(event) {
             dropToken(currentCol.children[i], i, currentCol);
             addToBoardObj(i, currentCol);
             return;
-            
         }
     }
 }
@@ -55,9 +58,8 @@ function dropToken(dropSpace) {
     dropSpace.classList.remove('open');
     gameState.move++;
 }
-//create a for loop
+
 function addToBoardObj(rowIndex, currentCol) {
-    
     for (let i = 0; i < 7; i++) {
         if (boardDisplay.children[i] === currentCol) {
             board[i].push(gameState.playerTurn);
@@ -93,10 +95,11 @@ function checkVertical(row, colIndex) {
     if (vertMatchCount > 3) {
         console.log('you win downward!!!');
         if(gameState.playerTurn === 'red') {
-            console.log('congrats Player 1!');
+            winningPlayer = 'Player 1';
         } else {
-            console.log('congrats Player 2');
+            winningPlayer = 'Player 2';
         }
+        gameOver();
     }
 }
 
@@ -131,10 +134,11 @@ function checkForwardDiagonal(row, colIndex) {
     if (backMatchCount + fDMatchCount > 4) {
         console.log('You win Diagonal')
         if(gameState.playerTurn === 'red') {
-            console.log('congrats Player 1!');
+            winningPlayer = 'Player 1';
         } else {
-            console.log('congrats Player 2');
+            winningPlayer = 'Player 2';
         }
+        gameOver();
     }
 }
 
@@ -170,10 +174,11 @@ function checkBackwardDiagonal(row, colIndex) {
     if (backMatchCount + fDMatchCount > 4) {
         console.log('You win Back Diagonal')
         if(gameState.playerTurn === 'red') {
-            console.log('congrats Player 1');
+            winningPlayer = 'Player 1';
         } else {
-            console.log('congrats Player 2');
+            winningPlayer = 'Player 2';
         }
+        gameOver();
     }
 }
 
@@ -207,9 +212,43 @@ function checkHorizontal(row, colIndex) {
     if (backMatchCount + fDMatchCount > 4) {
         console.log('You win horizontal')
         if(gameState.playerTurn === 'red') {
-            console.log('congrats Player 1');
+            winningPlayer = 'Player 1';
         } else {
-            console.log('congrats Player 2');
+            winningPlayer = 'Player 2';
         }
+        gameOver();
     }
 }
+
+function gameOver() {
+    boardDisplay.style.display = 'none';
+    
+    document.body.appendChild(endGameContainer);
+    endGameContainer.className = 'end-game-container'
+    winnerH1.className = 'gameover';
+    endGameContainer.appendChild(winnerH1);
+    winnerH1.innerHTML = `${winningPlayer} wins!`
+    restartBtn.className = 'restart';
+    restartBtn.innerHTML = 'Restart';
+    endGameContainer.appendChild(restartBtn);
+    
+}
+restartBtn.addEventListener('click', function() {
+    boardDisplay.style.display = 'flex';
+    winnerH1.remove();
+    restartBtn.remove();
+    endGameContainer.remove();
+    console.log(spaces[0].children[0])
+    gameState.move = 1;
+    colorDisplay.style.backgroundColor = 'red';
+    playerDisplay.innerHTML = 'Player 1';
+    for (let i = 0; i < 42; i++) {
+        
+        spaces[i].children[0].removeAttribute('style');
+        console.log(spaces[i]);
+        if (!spaces[i].classList.contains('open')) {
+            spaces[i].classList.add("open");
+        }
+    }
+    
+});
