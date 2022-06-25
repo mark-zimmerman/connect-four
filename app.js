@@ -258,4 +258,10 @@ restartBtn.addEventListener('click', function() {
         }
     }
     
+    for (let j = 0; j < 7; j++) {
+        for (let i = 0; i < 6; i++) {
+            board[j].pop();
+        }
+    }
+    console.log(board)
 });
