@@ -7,6 +7,12 @@ const gameoverHeading = document.querySelector('.gameover');
 let winnerH1 = document.createElement('h1');
 let restartBtn = document.createElement('btn');
 let endGameContainer = document.createElement('div');
+let startGameContainer = document.createElement('div');
+let objective = document.createElement('li');
+let objective2 = document.createElement('li');
+let startBtn = document.createElement('btn');
+let objectiveH2 = document.createElement('h2');
+let objectiveUl = document.createElement('ul');
 let winningPlayer; 
 const spaces = document.querySelectorAll('.space');
 const board = [];
@@ -224,17 +230,17 @@ function checkHorizontal(row, colIndex) {
 function gameOver() {
     setTimeout(
         function() {
-        boardDisplay.style.display = 'none';
-        document.body.appendChild(endGameContainer);
-        endGameContainer.className = 'end-game-container'
-        winnerH1.className = 'gameover';
-        endGameContainer.appendChild(winnerH1);
-        winnerH1.innerHTML = `${winningPlayer} wins!`
-        restartBtn.className = 'restart';
-        restartBtn.innerHTML = 'Restart';
-        endGameContainer.appendChild(restartBtn);
-        playerDisplay.style.display = 'none';
-        colorDisplay.style.display = 'none';
+            boardDisplay.style.display = 'none';
+            document.body.appendChild(endGameContainer);
+            endGameContainer.className = 'end-game-container'
+            winnerH1.className = 'gameover';
+            endGameContainer.appendChild(winnerH1);
+            winnerH1.innerHTML = `${winningPlayer} wins!`
+            restartBtn.className = 'restart';
+            restartBtn.innerHTML = 'Restart';
+            endGameContainer.appendChild(restartBtn);
+            playerDisplay.style.display = 'none';
+            colorDisplay.style.display = 'none';
     }, 1000);
     
 }
@@ -264,4 +270,28 @@ restartBtn.addEventListener('click', function() {
         }
     }
     console.log(board)
+});
+function startDisplay() {
+    boardDisplay.style.display = 'none';
+    document.body.appendChild(startGameContainer);
+    startGameContainer.className = 'start-game-container';
+    startBtn.className = 'start';
+    startBtn.innerHTML = 'Start';
+    startGameContainer.appendChild(objectiveH2);
+    objectiveUl.appendChild(objective);
+    objectiveUl.appendChild(objective2);
+    startGameContainer.appendChild(objectiveUl);
+    startGameContainer.appendChild(startBtn);
+    
+    objective2.innerHTML = "Click on the column of the space you would like to fill"
+    objective.innerHTML = "To be the first player to connect 4 of the same colored discs in a row (either vertically, horizontally, or diagonally)"
+    objectiveH2.innerHTML = "Objective:";
+}
+startBtn.addEventListener('click', function() {
+    boardDisplay.style.display = 'flex';
+    objectiveUl.remove();
+    objective.remove();
+    objective2.remove();
+    startBtn.remove();
+    startGameContainer.remove();
 });

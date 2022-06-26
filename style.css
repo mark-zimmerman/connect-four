@@ -21,12 +21,17 @@ body {
     
 
 }
-.restart {
+.restart, .start{
     border: 2px white solid;
     padding: .5em;
     border-radius: 5px;
 }
 .restart:hover {
+    cursor: pointer;
+    border: solid 2px blue;
+    color: blue;
+}
+.start:hover {
     cursor: pointer;
     border: solid 2px blue;
     color: blue;
@@ -103,4 +108,18 @@ header {
       text-align: center;
       align-items: center;
       height: 80vh;
+  }
+
+  .start-game-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+      width: 70%;
+      margin: 0 auto;
+      color: white;
+  }
+  .start {
+      margin-top: 100px;
   }
