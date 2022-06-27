@@ -16,6 +16,7 @@ let objectiveUl = document.createElement('ul');
 let winningPlayer; 
 const spaces = document.querySelectorAll('.space');
 const board = [];
+let tie = false;
 
 for (let i = 0; i < 7; i++) {
     board.push([])
@@ -72,6 +73,7 @@ function addToBoardObj(rowIndex, currentCol) {
         }
     }
     checkForWin(rowIndex, currentCol);
+    
 }
 
 function checkForWin(row, column) {
@@ -86,6 +88,24 @@ function checkForWin(row, column) {
     checkForwardDiagonal(row, colIndex);
     checkBackwardDiagonal(row, colIndex)
     checkHorizontal(row, colIndex);
+    checkForTie();
+}
+
+function checkForTie() {
+    let filled = 0;
+    console.log('checking for tie');
+    for (let i = 0; i < 42; i++) {
+        if (!spaces[i].classList.contains('open')) {
+            filled++;
+        } 
+        console.log(spaces[i]);
+    }
+    if (filled > 41) {
+        console.log('yooooooooooo');
+        tie = true;
+        gameOver();
+    }
+    
 }
 
 function checkVertical(row, colIndex) {
@@ -226,7 +246,6 @@ function checkHorizontal(row, colIndex) {
         gameOver();
     }
 }
-
 function gameOver() {
     setTimeout(
         function() {
@@ -235,12 +254,16 @@ function gameOver() {
             endGameContainer.className = 'end-game-container'
             winnerH1.className = 'gameover';
             endGameContainer.appendChild(winnerH1);
-            winnerH1.innerHTML = `${winningPlayer} wins!`
             restartBtn.className = 'restart';
             restartBtn.innerHTML = 'Restart';
             endGameContainer.appendChild(restartBtn);
             playerDisplay.style.display = 'none';
             colorDisplay.style.display = 'none';
+            if (tie && winningPlayer !== undefined) {
+                winnerH1.innerHTML = 'Tie Game';
+            } else {
+                winnerH1.innerHTML = `${winningPlayer} wins!`;
+            }
     }, 1000);
     
 }
