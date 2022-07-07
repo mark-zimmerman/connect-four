@@ -38,7 +38,8 @@ const gameState = {
     playerTurn: 'red',
     move: 1,
     playerName_1: '',
-    playName_2: ''
+    playName_2: '',
+    activePlayer: ''
 }
 console.log(gameState.board);
 
@@ -57,17 +58,19 @@ function columnCheck(event) {
 }
 
 function dropToken(dropSpace) {
-    if (gameState.move % 2 !== 0) {
+    if (gameState.activePlayer === gameState.playerName_1) {
         dropSpace.children[0].style.backgroundColor = 'red';
         gameState.playerTurn = 'red';
         playerDisplay.innerHTML = gameState.playerName_2;
         colorDisplay.style.backgroundColor = 'yellow';
+        gameState.activePlayer = gameState.playerName_2;
 
     } else {
         dropSpace.children[0].style.backgroundColor = 'yellow';
         gameState.playerTurn = 'yellow';
         playerDisplay.innerHTML = gameState.playerName_1;
         colorDisplay.style.backgroundColor = 'red';
+        gameState.activePlayer = gameState.playerName_1;
     }
     dropSpace.classList.remove('open');
     gameState.move++;
@@ -100,7 +103,6 @@ function checkForWin(row, column) {
 
 function checkForTie() {
     let filled = 0;
-    console.log('checking for tie');
     for (let i = 0; i < 42; i++) {
         if (!spaces[i].classList.contains('open')) {
             filled++;
@@ -108,7 +110,6 @@ function checkForTie() {
         console.log(spaces[i]);
     }
     if (filled > 41) {
-        console.log('yooooooooooo');
         tie = true;
         gameOver();
     }
@@ -167,9 +168,9 @@ function checkForwardDiagonal(row, colIndex) {
     if (backMatchCount + fDMatchCount > 4) {
         console.log('You win Diagonal')
         if(gameState.playerTurn === 'red') {
-            winningPlayer = 'Player 1';
+            winningPlayer = gameState.playerName_1;
         } else {
-            winningPlayer = 'Player 2';
+            winningPlayer = gameState.playerName_2;
         }
         gameOver();
     }
@@ -207,9 +208,9 @@ function checkBackwardDiagonal(row, colIndex) {
     if (backMatchCount + fDMatchCount > 4) {
         console.log('You win Back Diagonal')
         if(gameState.playerTurn === 'red') {
-            winningPlayer = 'Player 1';
+            winningPlayer = gameState.playerName_1;
         } else {
-            winningPlayer = 'Player 2';
+            winningPlayer = gameState.playerName_2;
         }
         gameOver();
     }
@@ -245,9 +246,9 @@ function checkHorizontal(row, colIndex) {
     if (backMatchCount + fDMatchCount > 4) {
         console.log('You win horizontal')
         if(gameState.playerTurn === 'red') {
-            winningPlayer = 'Player 1';
+            winningPlayer = gameState.playerName_1;
         } else {
-            winningPlayer = 'Player 2';
+            winningPlayer = gameState.playerName_2;
         }
         
         gameOver();
@@ -299,7 +300,7 @@ restartBtn.addEventListener('click', function() {
             board[j].pop();
         }
     }
-    console.log(board)
+    setActivePlayer();
 });
 function startDisplay() {
     boardDisplay.style.display = 'none';
@@ -327,7 +328,7 @@ function startDisplay() {
     objectiveH2.innerHTML = "Objective:";
     playerName1Label.innerHTML = "Player 1";
     playerName2Label.innerHTML = "Player 2";
-
+    
     // playerNameForm.onsubmit((event) => {
     //     gameState.playerName_1 = event.target.value;
     //     console.log(gameState.playerName_1);
@@ -345,4 +346,26 @@ startBtn.addEventListener('click', function() {
     startGameContainer.remove();
    
     playerDisplay.innerHTML = gameState.playerName_1;
+    setActivePlayer();
 });
+// We need to randomize who gets the first move.
+//We will do this by declaring the activePlayer
+//what is dependent on the active player?
+//playerTurn 
+// if activePlayer is playerName_1 then playerTurn equals red
+// if activePlayer is playerName-2 then playerTurn = yellow
+//WHen will this happen? : after start btn and restart btn is clicked
+function setActivePlayer() {
+    
+    if ( Math.random() > .5 ){
+        gameState.activePlayer = gameState.playerName_1;
+        gameState.playerTurn = 'red';
+      } else {
+        gameState.activePlayer = gameState.playerName_2;
+        gameState.playerTurn = 'yellow';
+      }
+    console.log(gameState.activePlayer);
+    console.log(gameState.playerTurn)
+    colorDisplay.style.backgroundColor = gameState.playerTurn;
+    playerDisplay.innerHTML = gameState.activePlayer;
+}
