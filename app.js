@@ -13,6 +13,11 @@ let objective2 = document.createElement('li');
 let startBtn = document.createElement('btn');
 let objectiveH2 = document.createElement('h2');
 let objectiveUl = document.createElement('ul');
+let playerNameForm = document.createElement('form');
+let playerName1Input = document.createElement('input');
+let playerName2Input = document.createElement('input');
+let playerName1Label = document.createElement('label');
+let playerName2Label = document.createElement('label');
 let winningPlayer; 
 const spaces = document.querySelectorAll('.space');
 const board = [];
@@ -31,7 +36,9 @@ boardDisplay.addEventListener('click', columnCheck);
 const gameState = {
     board: board,
     playerTurn: 'red',
-    move: 1
+    move: 1,
+    playerName_1: '',
+    playName_2: ''
 }
 console.log(gameState.board);
 
@@ -53,13 +60,13 @@ function dropToken(dropSpace) {
     if (gameState.move % 2 !== 0) {
         dropSpace.children[0].style.backgroundColor = 'red';
         gameState.playerTurn = 'red';
-        playerDisplay.innerHTML = 'Player 2';
+        playerDisplay.innerHTML = gameState.playerName_2;
         colorDisplay.style.backgroundColor = 'yellow';
 
     } else {
         dropSpace.children[0].style.backgroundColor = 'yellow';
         gameState.playerTurn = 'yellow';
-        playerDisplay.innerHTML = 'Player 1';
+        playerDisplay.innerHTML = gameState.playerName_1;
         colorDisplay.style.backgroundColor = 'red';
     }
     dropSpace.classList.remove('open');
@@ -121,9 +128,9 @@ function checkVertical(row, colIndex) {
     if (vertMatchCount > 3) {
         console.log('you win downward!!!');
         if(gameState.playerTurn === 'red') {
-            winningPlayer = 'Player 1';
+            winningPlayer = gameState.playerName_1;
         } else {
-            winningPlayer = 'Player 2';
+            winningPlayer = gameState.playerName_2;
         }
         gameOver();
     }
@@ -275,7 +282,7 @@ restartBtn.addEventListener('click', function() {
     console.log(spaces[0].children[0])
     gameState.move = 1;
     colorDisplay.style.backgroundColor = 'red';
-    playerDisplay.innerHTML = 'Player 1';
+    playerDisplay.innerHTML = gameState.playerName_1;
     colorDisplay.style.display = 'block';
     playerDisplay.style.display = 'block';
     for (let i = 0; i < 42; i++) {
@@ -304,17 +311,38 @@ function startDisplay() {
     objectiveUl.appendChild(objective);
     objectiveUl.appendChild(objective2);
     startGameContainer.appendChild(objectiveUl);
-    startGameContainer.appendChild(startBtn);
+    startGameContainer.appendChild(playerNameForm);
+    playerNameForm.appendChild(playerName1Label);
+    playerNameForm.appendChild(playerName1Input);
+    playerNameForm.appendChild(playerName2Label);
+    playerNameForm.appendChild(playerName2Input);
+    playerNameForm.appendChild(startBtn);
+    playerName1Input.placeholder = "Enter Name";
+    playerName2Input.placeholder = "Enter Name";
     
+    playerName1Input.maxLength = 6;
+    playerName2Input.maxLength = 6;
     objective2.innerHTML = "Click on the column of the space you would like to fill"
     objective.innerHTML = "To be the first player to connect 4 of the same colored discs in a row (either vertically, horizontally, or diagonally)"
     objectiveH2.innerHTML = "Objective:";
+    playerName1Label.innerHTML = "Player 1";
+    playerName2Label.innerHTML = "Player 2";
+
+    // playerNameForm.onsubmit((event) => {
+    //     gameState.playerName_1 = event.target.value;
+    //     console.log(gameState.playerName_1);
+    // })
 }
 startBtn.addEventListener('click', function() {
+    gameState.playerName_1 = playerName1Input.value;
+    gameState.playerName_2 = playerName2Input.value;
+    
     boardDisplay.style.display = 'flex';
     objectiveUl.remove();
     objective.remove();
     objective2.remove();
     startBtn.remove();
     startGameContainer.remove();
+   
+    playerDisplay.innerHTML = gameState.playerName_1;
 });
